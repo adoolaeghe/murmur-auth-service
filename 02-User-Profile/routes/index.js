@@ -5,21 +5,20 @@ const router = express.Router();
 const env = {
   AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
   AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
-  AUTH0_CALLBACK_URL:
-    process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
+  AUTH0_CALLBACK_URL:'http://localhost:3000/callback'
 };
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+  res.send('Please request a correct api');
 });
 
 router.get('/login', passport.authenticate('auth0', {
-  clientID: env.AUTH0_CLIENT_ID,
-  domain: env.AUTH0_DOMAIN,
-  redirectUri: env.AUTH0_CALLBACK_URL,
+  clientID: 'WtzPKc52r5w0Xw-5CUuGzT8QvY3EGRFO',
+  domain: 'murmur.eu.auth0.com',
+  redirectUri: 'http://localhost:3000/callback',
   responseType: 'code',
-  audience: 'https://' + env.AUTH0_DOMAIN + '/userinfo',
+  audience: 'https://' + 'murmur.eu.auth0.com' + '/userinfo',
   scope: 'openid profile'}),
   function(req, res) {
     res.redirect("/");
@@ -43,7 +42,7 @@ router.get('/failure', function(req, res) {
   var error = req.flash("error");
   var error_description = req.flash("error_description");
   req.logout();
-  res.render('failure', {
+  res.send({
     error: error[0],
     error_description: error_description[0],
   });

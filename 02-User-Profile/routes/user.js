@@ -5,8 +5,8 @@ const router = express.Router();
 
 /* GET user profile. */
 router.get('/', ensureLoggedIn, function(req, res, next) {
-  res.render('user', {
-    user: req.user ,
+  res.send({
+    user: req.user,
     userProfile: JSON.stringify(req.user, null, '  ')
   });
 });

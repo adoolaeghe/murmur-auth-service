@@ -14,20 +14,22 @@ dotenv.load();
 
 const routes = require('./routes/index');
 const user = require('./routes/user');
+const mur = require('./routes/mur');
 
 // This will configure Passport to use Auth0
 const strategy = new Auth0Strategy(
   {
-    domain: process.env.AUTH0_DOMAIN,
-    clientID: process.env.AUTH0_CLIENT_ID,
-    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+    clientID: 'WtzPKc52r5w0Xw-5CUuGzT8QvY3EGRFO',
+    domain: 'murmur.eu.auth0.com',
+    clientSecret: '3SirOO-4ZUm4Y5rOd0ggbo1Fpz5fUEFHQczMUCoWfpzr0yZ6L0gjAoYmrWLLOB9j',
     callbackURL:
-      process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
+      'http://localhost:3000/callback'
   },
   function(accessToken, refreshToken, extraParams, profile, done) {
     // accessToken is the token to call Auth0 API (not needed in the most cases)
     // extraParams.id_token has the JSON Web Token
     // profile has all the information from the user
+    console.log(extraParams)
     return done(null, profile);
   }
 );
@@ -90,6 +92,7 @@ app.use(function(req, res, next) {
 
 app.use('/', routes);
 app.use('/user', user);
+app.use('/mur', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -105,7 +108,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.send({
       message: err.message,
       error: err
     });
